@@ -4,6 +4,8 @@ FROM golang:1.21 AS builder
 # Set working directory
 WORKDIR /app
 
+COPY main.go /opt/server/
+
 # Unzip and build
 RUN go mod init dispatch && \
     go get && \
