@@ -1,21 +1,23 @@
-# Base image with Go for build stage
+# Build stage
 FROM golang:1.21 AS builder
 
-# Set working directory
 WORKDIR /app
 
-COPY main.go /opt/server/
+# Copy your Go source code into the container
+COPY main.go .
 
-# Unzip and build
+# Initialize Go module and build
 RUN go mod init dispatch && \
     go get && \
     go build -o dispatch
 
-# Final lightweight image
+# Final image
 FROM alpine:latest
 
 RUN adduser -S -D roboshop
 WORKDIR /app
+
+# Copy the binary from builder
 COPY --from=builder /app/dispatch /app/dispatch
 
 USER roboshop
