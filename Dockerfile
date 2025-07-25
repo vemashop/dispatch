@@ -1,7 +1,7 @@
 # Build stage
 FROM golang:1.21 AS builder
 
-WORKDIR /app
+WORKDIR /opt/server
 
 # Copy your Go source code into the container
 COPY main.go .
@@ -15,10 +15,11 @@ RUN go mod init dispatch && \
 FROM alpine:latest
 
 RUN adduser -S -D roboshop
-WORKDIR /app
+
+WORKDIR /opt/server
 
 # Copy the binary from builder
-COPY --from=builder /app/dispatch /app/dispatch
+COPY --from=builder /opt/server/dispatch /opt/server/dispatch
 
 USER roboshop
-ENTRYPOINT ["/app/dispatch"]
+ENTRYPOINT ["/opt/server/dispatch"]
