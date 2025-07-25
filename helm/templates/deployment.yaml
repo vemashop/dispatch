@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dispatch
+  labels:
+    app: dispatch
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: dispatch
+  template:
+    metadata:
+      labels:
+        app: dispatch
+    spec:
+      containers:
+        - name: dispatch
+          image: "{{ .Values.deployment.imageURL }}:{{ .Values.deployment.imageVersion }}"
+          env:
+            - name: AMQP_HOST
+              value: "{{ .Values.env.AMQP_HOST }}"
+            - name: AMQP_USER
+              value: "{{ .Values.env.AMQP_USER }}"
+            - name: AMQP_PASS
+              value: "{{ .Values.env.AMQP_PASS }}"
+          ports:
+            - containerPort: 8080

@@ -1,0 +1,13 @@
+deployment:
+  replicas: 1
+  imageURL: "178173414156.dkr.ecr.us-east-1.amazonaws.com/roboshop/dispatch"
+  imageVersion: "1.0.0"
+
+env:
+  AMQP_HOST: "rabbitmq.roboshop.svc.cluster.local"
+  AMQP_USER: "roboshop"
+  AMQP_PASS: "roboshop123"
+
+service:
+  type: ClusterIP
+  port: 8080
